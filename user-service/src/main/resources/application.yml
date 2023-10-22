@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/users
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  application:
+    name: user-service
+server:
+  port: 8081
+
+kafka:
+  host: localhost:9092
+  topics:
+    user-created:
+      topicName: user_created
+      partitionCount: 1
+      replicationFactor: 1
+

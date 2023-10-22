@@ -1,0 +1,49 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  run-unit-test:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkoutv@v3
+
+      - name: Setup java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'adopt'
+
+      - name: Setup maven
+        uses: stCarolas/setup-maven@4.4
+        with:
+          maven-version: 4.0.0
+
+      - name: Unit Tests
+        run: mvn clean package
+
+      - name: Rename the artifact
+        run: cp target/springboot-kafka-template-1.0-SNAPSHOT.jar springboot-kafka-template-${{ github.sha }}.jar
+
+      - name: Save the artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: springboot-kafka-template
+          path: springboot-kafka-template-${{ github.sha }}.jar
+
+fake-deploy:
+    runs-on: self-hosted
+    needs: run-unit-tests
+    steps:
+      - name: Get the artifact
+        uses: actions/download-artifact@master
+        with:
+          name: springboot-kafka-template
+
+      - name: Fake deploy
+        run: ls springboot-kafka-template-*.jar

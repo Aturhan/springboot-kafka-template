@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: email-service
+
+server:
+  port: 0
+
+kafka:
+  host: localhost:9092
+  topics:
+    user-created:
+      topic: user_created
+      consumerGroup: user_created_consumer_email
+

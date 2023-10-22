@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: account-service
+  datasource:
+    username: root
+    password: root
+    url: jdbc:postgresql://localhost:5433/accounts
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 0
+
+kafka:
+  host: localhost:9092
+  topics:
+    user-created:
+      topic: user_created
+      consumerGroup: user_created_consumer
+
